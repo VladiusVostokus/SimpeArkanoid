@@ -2,38 +2,64 @@
 
 const height = 20;
 const width = 50;
+
+
 const fillSymbol = '#';
+const fillEmpty = ' ';
 
+
+const racketWidth = 6;
+const racketX = Math.round((width - racketWidth) / 2)
+const racket = {x : racketX, y : height - 2};
+
+
+
+const putRacket = (field) => {
+    
+    for (let i = racket.x; i < racket.x + racketWidth; i++ ) {
+        
+        field[racket.y][i] = '@';
+    }
+};
+                
+                
 //const gameField = new Array(width).fill('#');
+      
 
-const createField = (symbol,w,h) => {
+const createField = (symbol, w, h) => {
     
     const returnArray = [];
     const workArray = new Array(width).fill(symbol);
     
-    for(let i = 0; i < h; i++) {
+    for(let i = 0; i < h; i++) 
         
-        returnArray.push([...workArray]);
-       
-    }
+        returnArray.push([...workArray]); 
+      
     
-    for(let i = 1; i < h - 1 ; i++) {
-        for(let j = 1; j < w - 1; j++){
-            returnArray[i][j] = ' ';
+    for(let i = 1; i < h; i++) {
+        
+        for(let j = 1; j < w-1; j++){
+            
+            returnArray[i][j] = fillEmpty;
+            
         }
     }
     
-    return returnArray;
-    
+    return returnArray;  
 };
+
 
 
 const gameField = createField(fillSymbol,width,height);
 
 
+
+
+
 const updateField = (field) => {
     
     let str = '';
+    
     
     for(const subArray of field) {
         
@@ -46,5 +72,13 @@ const updateField = (field) => {
     }  
 };
 
+
+//updateField(gameField,height);
+//console.clear();
+
+putRacket(gameField);  
 updateField(gameField,height);
+
+
+
 
