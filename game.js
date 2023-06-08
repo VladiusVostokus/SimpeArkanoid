@@ -21,6 +21,16 @@ const putRacket = (field) => {
         field[racket.y][i] = '@';
     }
 };
+
+const racketMove = (x) => {
+    
+    racket.x = x;
+    
+    if (racket.x < 1) racket.x = 1;
+    
+    if (racket.x + racketWidth >= width) racket.x = width - 1 - racketWidth;
+        
+}
                 
                 
 //const gameField = new Array(width).fill('#');
@@ -76,7 +86,10 @@ const updateField = (field) => {
 //updateField(gameField,height);
 //console.clear();
 
+racketMove(100);
+
 putRacket(gameField);  
+
 updateField(gameField,height);
 
 
