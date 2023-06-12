@@ -7,6 +7,7 @@ const width = 50;
 const fillSymbol = '#';
 const fillEmpty = ' ';
 
+
 const stdin = process.stdin;
 stdin.setRawMode(true);
 stdin.setEncoding('utf8');
@@ -17,11 +18,22 @@ stdin.setEncoding('utf8');
 
 const racketWidth = 6;
 const racketX = Math.round((width - racketWidth) / 2);
+
 const racket = {
     x: racketX,
-    y: height - 2
+    y: height - 2,
 };
 
+const BALL = {
+    x: 24,
+    y: 10,
+};
+
+const putBall = (field) => {
+    
+    field[BALL.y][BALL.x] = '*';
+    
+};
 
 
 const putRacket = (field) => {
@@ -32,6 +44,7 @@ const putRacket = (field) => {
     }
 };
 
+
 const racketMove = (x) => {
 
     racket.x = x;
@@ -40,7 +53,7 @@ const racketMove = (x) => {
 
     if (racket.x + racketWidth >= width) racket.x = width - 1 - racketWidth;
 
-}
+};
 
 
 //const gameField = new Array(width).fill('#');
@@ -87,59 +100,47 @@ const updateField = (field) => {
 };
 
 
-//updateField(gameField,height);
-//console.clear();
 
-/*
-racketMove(30);
 putRacket(gameField);
 updateField(gameField, height);
 
-gameField = createField(fillSymbol, width, height);
 
-racketMove(20);
-putRacket(gameField);
-updateField(gameField, height);
-*/
+const updateGame = () => {
+
+    console.clear();
+    gameField = createField(fillSymbol, width, height);
+    putRacket(gameField);
+    putBall(gameField);
+    updateField(gameField, height);
+    
+};
+
+
+
 
 
 stdin.on('data', button => {
-    
-    switch(button) {
-        
-        case 'a':
-            console.clear();
-            gameField = createField(fillSymbol, width, height);
-            racketMove(racket.x - 1);
-            putRacket(gameField);
-            updateField(gameField, height);
-            break;
-            
-        case 'd':
-            console.clear();
-            gameField = createField(fillSymbol, width, height);
-            racketMove(racket.x + 1);
-            putRacket(gameField);
-            updateField(gameField, height);
-            break;
+
+    if (button === 'a') {
+
+        //console.clear();
+        //gameField = createField(fillSymbol, width, height);
+        racketMove(racket.x - 1);
+        putRacket(gameField);
+        //updateField(gameField, height);
     }
-    
+
+
+    if (button === 'd') {
+
+        //console.clear();
+        //gameField = createField(fillSymbol, width, height);
+        racketMove(racket.x + 1);
+        putRacket(gameField);
+        //updateField(gameField, height);
+    }
+
+    if (button === 'q') process.exit(0);
 });
-         
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+setInterval(updateGame, 20);
