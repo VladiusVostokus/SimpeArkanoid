@@ -3,6 +3,9 @@
 const height = 20;
 const width = 50;
 
+const WIN_SCORE = 10;
+let yourScore = 0;
+
 
 const fillSymbol = '#';
 const fillEmpty = ' ';
@@ -40,12 +43,17 @@ const moveBall = (field) => {
     
     if (BALL.y === 19) {
         
-        console.log("game over");
+        console.log("game over, your score =",yourScore);
         process.exit(0);
         
     }
     
-    if (field[BALL.y + 1][BALL.x - 1] === "@") yChanger = -yChanger;
+    if (field[BALL.y + 1][BALL.x - 1] === "@") {
+        yourScore++;
+        yChanger = -yChanger;
+    }
+    
+    
     if (BALL.y === 1) yChanger = -yChanger;
     if (BALL.x === 1 || BALL.x === 48) xChanger = -xChanger;
     
@@ -120,7 +128,6 @@ const updateField = (field) => {
 
 
 
-
 const updateGame = () => {
 
     console.clear();
@@ -129,6 +136,12 @@ const updateGame = () => {
     moveBall(gameField);
     putBall(gameField);
     updateField(gameField, height);
+    
+    if(yourScore === WIN_SCORE) {
+        
+        console.log("Congratulation!!!");
+        process.exit(0);
+    }
     
 };
 
@@ -155,6 +168,7 @@ stdin.on('data', button => {
         console.log("game over");
         process.exit(0);
     }
+    
 });
 
 setInterval(updateGame, 60);
