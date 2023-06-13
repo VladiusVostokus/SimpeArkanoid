@@ -1,14 +1,14 @@
 'use strict';
 
-const height = 20;
-const width = 50;
+const HEIGHT = 20;
+const WIDTH = 50;
 
 const WIN_SCORE = 10;
 let yourScore = 0;
 
 
-const fillSymbol = '#';
-const fillEmpty = ' ';
+const FILL_SYMBOL = '#';
+const EMPTY = ' ';
 
 
 const stdin = process.stdin;
@@ -18,21 +18,21 @@ stdin.setEncoding('utf8');
 
 
 const racketWidth = 6;
-const racketX = Math.round((width - racketWidth) / 2);
+const RACKET_X = Math.round((WIDTH - racketWidth) / 2);
 
 const racket = {
-    x: racketX,
-    y: height - 2,
+    x: RACKET_X,
+    y: HEIGHT - 2,
 };
 
-const BALL = {
+const ball = {
     x: 24,
     y: 10,
 };
 
 const putBall = (field) => {
     
-    field[BALL.y][BALL.x] = '*';
+    field[ball.y][ball.x] = '*';
     
 };
 
@@ -41,27 +41,29 @@ let yChanger = 1;
 
 const moveBall = (field) => {
     
-    if (BALL.y === 19) {
+    if (ball.y === 19) {
         
-        console.log("game over, your score =",yourScore);
+        console.log("game over, your score =", yourScore);
         process.exit(0);
         
     }
     
-    if (field[BALL.y + 1][BALL.x - 1] === "@") {
+    if (field[ball.y + 1][ball.x - 1] === "@") { 
+        
         yourScore++;
         yChanger = -yChanger;
+        
     }
     
     
-    if (BALL.y === 1) yChanger = -yChanger;
-    if (BALL.x === 1 || BALL.x === 48) xChanger = -xChanger;
+    if (ball.y === 1) yChanger = -yChanger;
+    if (ball.x === 1 || ball.x === 48) xChanger = -xChanger;
     
     
-    BALL.x += xChanger;
-    BALL.y -= yChanger;
+    ball.x += xChanger;
+    ball.y -= yChanger;
         
-}
+};
 
 
 const putRacket = (field) => {
@@ -73,13 +75,13 @@ const putRacket = (field) => {
 };
 
 
-const racketMove = (x) => {
+const moveRacket = (x) => {
 
     racket.x = x;
 
     if (racket.x < 1) racket.x = 1;
 
-    if (racket.x + racketWidth >= width) racket.x = width - 1 - racketWidth;
+    if (racket.x + racketWidth >= WIDTH) racket.x = WIDTH - 1 - racketWidth;
 
 };
 
@@ -88,7 +90,7 @@ const racketMove = (x) => {
 const createField = (symbol, w, h) => {
 
     const returnArray = [];
-    const workArray = new Array(width).fill(symbol);
+    const workArray = new Array(w).fill(symbol);
 
     for (let i = 0; i < h; i++)
 
@@ -98,7 +100,7 @@ const createField = (symbol, w, h) => {
 
         for (let j = 1; j < w - 1; j++) {
 
-            returnArray[i][j] = fillEmpty;
+            returnArray[i][j] = EMPTY;
 
         }
     }
@@ -108,10 +110,10 @@ const createField = (symbol, w, h) => {
     
 
 
-let gameField = createField(fillSymbol, width, height);
+let gameField = createField(FILL_SYMBOL, WIDTH, HEIGHT);
 
 
-const updateField = (field) => {
+const showField = (field) => {
 
     let str = '';
 
@@ -131,11 +133,11 @@ const updateField = (field) => {
 const updateGame = () => {
 
     console.clear();
-    gameField = createField(fillSymbol, width, height);
+    gameField = createField(FILL_SYMBOL, WIDTH, HEIGHT);
     putRacket(gameField);
     moveBall(gameField);
     putBall(gameField);
-    updateField(gameField, height);
+    showField(gameField, HEIGHT);
     
     if(yourScore === WIN_SCORE) {
         
@@ -150,7 +152,7 @@ stdin.on('data', button => {
 
     if (button === 'a') {
         
-        racketMove(racket.x - 1);
+        moveRacket(racket.x - 1);
         putRacket(gameField);
         
     }
@@ -158,7 +160,7 @@ stdin.on('data', button => {
 
     if (button === 'd') {
 
-        racketMove(racket.x + 1);
+        moveRacket(racket.x + 1);
         putRacket(gameField);
         
     }
