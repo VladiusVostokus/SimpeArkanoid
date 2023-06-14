@@ -2,13 +2,16 @@
 
 const HEIGHT = 20;
 const WIDTH = 50;
+const END_OF_FIELD = HEIGHT - 1;
 
 const WIN_SCORE = 10;
 let yourScore = 0;
 
 
-const FILL_SYMBOL = '#';
-const EMPTY = ' ';
+const WALL = '#';
+const SPACE = ' ';
+const RACKET = '@';
+const BALL = '*';
 
 
 const stdin = process.stdin;
@@ -21,19 +24,21 @@ const racketWidth = 6;
 const RACKET_X = Math.round((WIDTH - racketWidth) / 2);
 
 const racket = {
+
     x: RACKET_X,
     y: HEIGHT - 2,
+
 };
 
 const ball = {
-    x: 24,
+    x: 30,
     y: 10,
 };
 
 const putBall = (field) => {
-    
-    field[ball.y][ball.x] = '*';
-    
+
+    field[ball.y][ball.x] = BALL;
+
 };
 
 let xChanger = 1;
@@ -41,36 +46,49 @@ let yChanger = 1;
 
 const moveBall = (field) => {
     
-    if (ball.y === 19) {
-        
+    const PREV_X = ball.x - 1;
+    const NEXT_X = ball.x + 1;
+    
+    const PREV_Y = ball.y - 1;
+    const NEXT_Y = ball.y + 1;
+    
+    
+    if (ball.y === END_OF_FIELD) {
+
         console.log("game over, your score =", yourScore);
         process.exit(0);
-        
+
     }
     
-    if (field[ball.y + 1][ball.x - 1] === "@") { 
+    
+    if (field[ball.y][PREV_X] === WALL || field[ball.y][NEXT_X] === WALL)  
+        xChanger = -xChanger;
         
+    
+    if(field[PREV_Y][ball.x] === WALL || field[NEXT_Y][ball.x] === WALL )
+        yChanger = - yChanger;
+    
+    
+    if (field[NEXT_Y][ball.x] === RACKET) {
+
         yourScore++;
         yChanger = -yChanger;
-        
+
     }
-    
-    
-    if (ball.y === 1) yChanger = -yChanger;
-    if (ball.x === 1 || ball.x === 48) xChanger = -xChanger;
     
     
     ball.x += xChanger;
     ball.y -= yChanger;
-        
-};
+    
+}
+
 
 
 const putRacket = (field) => {
 
     for (let i = racket.x; i < racket.x + racketWidth; i++) {
 
-        field[racket.y][i] = '@';
+        field[racket.y][i] = RACKET;
     }
 };
 
@@ -100,17 +118,17 @@ const createField = (symbol, w, h) => {
 
         for (let j = 1; j < w - 1; j++) {
 
-            returnArray[i][j] = EMPTY;
+            returnArray[i][j] = SPACE;
 
         }
     }
 
     return returnArray;
 };
-    
 
 
-let gameField = createField(FILL_SYMBOL, WIDTH, HEIGHT);
+
+let gameField = createField(WALL, WIDTH, HEIGHT);
 
 
 const showField = (field) => {
@@ -133,28 +151,28 @@ const showField = (field) => {
 const updateGame = () => {
 
     console.clear();
-    gameField = createField(FILL_SYMBOL, WIDTH, HEIGHT);
+    gameField = createField(WALL, WIDTH, HEIGHT);
     putRacket(gameField);
     moveBall(gameField);
     putBall(gameField);
     showField(gameField, HEIGHT);
-    
-    if(yourScore === WIN_SCORE) {
-        
+
+    if (yourScore === WIN_SCORE) {
+
         console.log("Congratulation!!!");
         process.exit(0);
     }
-    
+
 };
 
 
 stdin.on('data', button => {
 
     if (button === 'a') {
-        
+
         moveRacket(racket.x - 1);
         putRacket(gameField);
-        
+
     }
 
 
@@ -162,15 +180,15 @@ stdin.on('data', button => {
 
         moveRacket(racket.x + 1);
         putRacket(gameField);
-        
+
     }
 
     if (button === 'q') {
-        
+
         console.log("game over");
         process.exit(0);
     }
-    
+
 });
 
 setInterval(updateGame, 60);
