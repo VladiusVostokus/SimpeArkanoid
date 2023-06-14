@@ -104,31 +104,31 @@ const moveRacket = (x) => {
 };
 
 
-
 const createField = (symbol, w, h) => {
-
+    
     const returnArray = [];
     const workArray = new Array(w).fill(symbol);
-
-    for (let i = 0; i < h; i++)
-
+    
+    for (let i = 0; i < h; i++){
+    
         returnArray.push([...workArray]);
-
-    for (let i = 1; i < h; i++) {
-
-        for (let j = 1; j < w - 1; j++) {
-
-            returnArray[i][j] = SPACE;
-
-        }
+        returnArray[i][0] = WALL;
+        returnArray[i][49] = WALL;
+    
     }
+    
+    
+    for (let i = 0; i < w; i++)
+        returnArray[0][i] = WALL;
+    
 
     return returnArray;
+    
 };
 
 
 
-let gameField = createField(WALL, WIDTH, HEIGHT);
+let gameField = createField(SPACE, WIDTH, HEIGHT);
 
 
 const showField = (field) => {
@@ -151,7 +151,7 @@ const showField = (field) => {
 const updateGame = () => {
 
     console.clear();
-    gameField = createField(WALL, WIDTH, HEIGHT);
+    gameField = createField(SPACE, WIDTH, HEIGHT);
     putRacket(gameField);
     moveBall(gameField);
     putBall(gameField);
