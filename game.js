@@ -1,5 +1,6 @@
 'use strict';
 
+
 const HEIGHT = 20;
 const WIDTH = 50;
 const END_OF_FIELD = HEIGHT - 1;
@@ -35,11 +36,6 @@ const ball = {
     y: 10,
 };
 
-const putBall = (field) => {
-
-    field[ball.y][ball.x] = BALL;
-
-};
 
 
 let xChanger = 1;
@@ -54,15 +50,11 @@ const moveBall = (field) => {
     const PREV_Y = ball.y - 1;
     const NEXT_Y = ball.y + 1;
     
-    
-    
     if (field[ball.y][PREV_X] === WALL || field[ball.y][NEXT_X] === WALL)  
         xChanger = -xChanger;
         
-    
-    if(field[PREV_Y][ball.x] === WALL || field[NEXT_Y][ball.x] === WALL )
-        yChanger = - yChanger;
-    
+    if (field[PREV_Y][ball.x] === WALL || field[NEXT_Y][ball.x] === WALL)
+        yChanger = -yChanger;
     
     if (field[NEXT_Y][ball.x] === RACKET) {
 
@@ -71,12 +63,12 @@ const moveBall = (field) => {
 
     }
     
-    
     ball.x += xChanger;
     ball.y -= yChanger;
     
+    field[ball.y][ball.x] = BALL;
+    
 };
-
 
 
 const putRacket = (field) => {
@@ -149,7 +141,6 @@ const updateGame = () => {
     gameField = createField(SPACE, WIDTH, HEIGHT);
     putRacket(gameField);
     moveBall(gameField);
-    putBall(gameField);
     showField(gameField, HEIGHT);
     
     
@@ -179,7 +170,7 @@ stdin.on('data', button => {
 
     }
 
-
+    
     if (button === 'd') {
 
         moveRacket(racket.x + 1);
