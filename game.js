@@ -21,15 +21,15 @@ stdin.setEncoding('utf8');
 
 
 
-const racketWidth = 6;
-const RACKET_X = Math.round((WIDTH - racketWidth) / 2);
+const RACKET_LEN = 6;
+const RACKET_X = Math.round((WIDTH - RACKET_LEN) / 2);
 
 const racket = {
-
     x: RACKET_X,
     y: HEIGHT - 2,
-
+    len: RACKET_LEN,
 };
+
 
 const ball = {
     x: 30,
@@ -43,37 +43,37 @@ let yChanger = 1;
 
 
 const moveBall = (field) => {
-    
+
     const PREV_X = ball.x - 1;
     const NEXT_X = ball.x + 1;
-    
+
     const PREV_Y = ball.y - 1;
     const NEXT_Y = ball.y + 1;
-    
-    if (field[ball.y][PREV_X] === WALL || field[ball.y][NEXT_X] === WALL)  
+
+    if (field[ball.y][PREV_X] === WALL || field[ball.y][NEXT_X] === WALL)
         xChanger = -xChanger;
-        
+
     if (field[PREV_Y][ball.x] === WALL || field[NEXT_Y][ball.x] === WALL)
         yChanger = -yChanger;
-    
+
     if (field[NEXT_Y][ball.x] === RACKET) {
 
         yourScore++;
         yChanger = -yChanger;
 
     }
-    
+
     ball.x += xChanger;
     ball.y -= yChanger;
-    
+
     field[ball.y][ball.x] = BALL;
-    
+
 };
 
 
 const putRacket = (field) => {
 
-    for (let i = racket.x; i < racket.x + racketWidth; i++) {
+    for (let i = racket.x; i < racket.x + racket.len; i++) {
 
         field[racket.y][i] = RACKET;
     }
@@ -86,31 +86,31 @@ const moveRacket = (x) => {
 
     if (racket.x < 1) racket.x = 1;
 
-    if (racket.x + racketWidth >= WIDTH) racket.x = WIDTH - 1 - racketWidth;
+    if (racket.x + racket.len >= WIDTH) racket.x = WIDTH - 1 - racket.len;
 
 };
 
 
 const createField = (symbol, w, h) => {
-    
+
     const returnArray = [];
     const workArray = new Array(w).fill(symbol);
-    
-    for (let i = 0; i < h; i++){
-    
+
+    for (let i = 0; i < h; i++) {
+
         returnArray.push([...workArray]);
         returnArray[i][0] = WALL;
         returnArray[i][49] = WALL;
-    
+
     }
-    
-    
+
+
     for (let i = 0; i < w; i++)
         returnArray[0][i] = WALL;
-    
+
 
     return returnArray;
-    
+
 };
 
 
@@ -142,15 +142,15 @@ const updateGame = () => {
     putRacket(gameField);
     moveBall(gameField);
     showField(gameField);
-    
-    
+
+
     if (ball.y === END_OF_FIELD) {
 
         console.log("Game over, your score =", yourScore);
         process.exit(0);
 
     }
-    
+
 
     if (yourScore === WIN_SCORE) {
 
@@ -170,7 +170,7 @@ stdin.on('data', button => {
 
     }
 
-    
+
     if (button === 'd') {
 
         moveRacket(racket.x + 1);
