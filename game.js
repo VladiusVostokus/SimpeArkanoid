@@ -141,7 +141,7 @@ const updateGame = () => {
     gameField = createField(SPACE, WIDTH, HEIGHT);
     putRacket(gameField);
     moveBall(gameField);
-    showField(gameField, HEIGHT);
+    showField(gameField);
     
     
     if (ball.y === END_OF_FIELD) {
