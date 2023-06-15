@@ -41,8 +41,10 @@ const putBall = (field) => {
 
 };
 
+
 let xChanger = 1;
 let yChanger = 1;
+
 
 const moveBall = (field) => {
     
@@ -52,13 +54,6 @@ const moveBall = (field) => {
     const PREV_Y = ball.y - 1;
     const NEXT_Y = ball.y + 1;
     
-    
-    if (ball.y === END_OF_FIELD) {
-
-        console.log("game over, your score =", yourScore);
-        process.exit(0);
-
-    }
     
     
     if (field[ball.y][PREV_X] === WALL || field[ball.y][NEXT_X] === WALL)  
@@ -80,7 +75,7 @@ const moveBall = (field) => {
     ball.x += xChanger;
     ball.y -= yChanger;
     
-}
+};
 
 
 
@@ -156,6 +151,15 @@ const updateGame = () => {
     moveBall(gameField);
     putBall(gameField);
     showField(gameField, HEIGHT);
+    
+    
+    if (ball.y === END_OF_FIELD) {
+
+        console.log("Game over, your score =", yourScore);
+        process.exit(0);
+
+    }
+    
 
     if (yourScore === WIN_SCORE) {
 
