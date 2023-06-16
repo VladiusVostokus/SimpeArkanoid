@@ -4,10 +4,14 @@
 const HEIGHT = 20;
 const WIDTH = 50;
 const END_OF_FIELD = HEIGHT - 1;
+const LEFT_WALL = 0;
+const RIGHT_WALL = WIDTH - 1;
+const CEILENG = 0;
 
 const WIN_SCORE = 10;
 let yourScore = 0;
 
+const TIMEOUT = 60;
 
 const WALL = '#';
 const SPACE = ' ';
@@ -18,7 +22,6 @@ const BALL = '*';
 const stdin = process.stdin;
 stdin.setRawMode(true);
 stdin.setEncoding('utf8');
-
 
 
 const RACKET_LEN = 6;
@@ -84,29 +87,29 @@ const moveRacket = (x) => {
 
     racket.x = x;
 
-    if (racket.x < 1) racket.x = 1;
+    if (racket.x < LEFT_WALL + 1) racket.x = 1;
 
-    if (racket.x + racket.len >= WIDTH) racket.x = WIDTH - 1 - racket.len;
+    if (racket.x + racket.len >= WIDTH) racket.x = RIGHT_WALL - racket.len;
 
 };
 
 
-const createField = (symbol, w, h) => {
+const createField = (symbol, width, height) => {
 
     const returnArray = [];
-    const workArray = new Array(w).fill(symbol);
+    const workArray = new Array(width).fill(symbol);
 
-    for (let i = 0; i < h; i++) {
+    for (let i = 0; i < height; i++) {
 
         returnArray.push([...workArray]);
-        returnArray[i][0] = WALL;
-        returnArray[i][49] = WALL;
+        returnArray[i][LEFT_WALL] = WALL;
+        returnArray[i][RIGHT_WALL] = WALL;
 
     }
 
 
-    for (let i = 0; i < w; i++)
-        returnArray[0][i] = WALL;
+    for (let i = 0; i < width; i++)
+        returnArray[CEILENG][i] = WALL;
 
 
     return returnArray;
@@ -165,11 +168,11 @@ stdin.on('data', button => {
 
     if (button === 'a') 
         moveRacket(racket.x - 1);
-    
+       
     else  
         if (button === 'd') 
             moveRacket(racket.x + 1);
-          
+           
         else
             if (button === 'q') {
 
@@ -179,4 +182,4 @@ stdin.on('data', button => {
 
 });
 
-setInterval(updateGame, 60);
+setInterval(updateGame, TIMEOUT);
