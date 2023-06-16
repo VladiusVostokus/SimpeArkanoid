@@ -163,26 +163,19 @@ const updateGame = () => {
 
 stdin.on('data', button => {
 
-    if (button === 'a') {
-
+    if (button === 'a') 
         moveRacket(racket.x - 1);
-        putRacket(gameField);
+    
+    else  
+        if (button === 'd') 
+            moveRacket(racket.x + 1);
+          
+        else
+            if (button === 'q') {
 
-    }
-
-
-    if (button === 'd') {
-
-        moveRacket(racket.x + 1);
-        putRacket(gameField);
-
-    }
-
-    if (button === 'q') {
-
-        console.log("game over");
-        process.exit(0);
-    }
+                console.log("game over");
+                process.exit(0);
+            }
 
 });
 
