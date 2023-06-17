@@ -121,6 +121,7 @@ const createField = (symbol, width, height) => {
 let gameField = createField(SPACE, WIDTH, HEIGHT);
 
 
+
 const showField = (field) => {
 
     let str = '';
@@ -164,21 +165,27 @@ const updateGame = () => {
 };
 
 
+const controls = {
+    
+    get 'a'() {
+        moveRacket(racket.x - 1);
+    },
+      
+    get 'd'() {
+        moveRacket(racket.x + 1);
+    },
+    
+    get 'q'() {
+        console.log('game over');
+        process.exit(0);     
+    },
+};
+
+const action = (button) => controls[button] || (() => {});
+
 stdin.on('data', button => {
 
-    if (button === 'a') 
-        moveRacket(racket.x - 1);
-       
-    else  
-        if (button === 'd') 
-            moveRacket(racket.x + 1);
-           
-        else
-            if (button === 'q') {
-
-                console.log("game over");
-                process.exit(0);
-            }
+   action(button);
 
 });
 
