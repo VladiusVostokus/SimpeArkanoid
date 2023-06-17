@@ -122,15 +122,15 @@ let gameField = createField(SPACE, WIDTH, HEIGHT);
 
 
 
-const showField = (field) => {
+const showField = (gamefield) => {
 
     let str = '';
 
-    for (const subArray of field) {
+    for (const row of gamefield) {
 
-        for (const value of subArray) {
+        for (const col of row) {
 
-            str += value;
+            str += col;
         }
         console.log(str);
         str = '';
