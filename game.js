@@ -45,7 +45,7 @@ let xChanger = 1;
 let yChanger = 1;
 
 
-const moveBall = (field) => {
+const moveBall = (gameField) => {
 
     const PREV_X = ball.x - 1;
     const NEXT_X = ball.x + 1;
@@ -53,13 +53,13 @@ const moveBall = (field) => {
     const PREV_Y = ball.y - 1;
     const NEXT_Y = ball.y + 1;
 
-    if (field[ball.y][PREV_X] === WALL || field[ball.y][NEXT_X] === WALL)
+    if (gameField[ball.y][PREV_X] === WALL || gameField[ball.y][NEXT_X] === WALL)
         xChanger = -xChanger;
 
-    if (field[PREV_Y][ball.x] === WALL || field[NEXT_Y][ball.x] === WALL)
+    if (gameField[PREV_Y][ball.x] === WALL || gameField[NEXT_Y][ball.x] === WALL)
         yChanger = -yChanger;
 
-    if (field[NEXT_Y][ball.x] === RACKET) {
+    if (gameField[NEXT_Y][ball.x] === RACKET) {
 
         yourScore++;
         yChanger = -yChanger;
@@ -69,16 +69,16 @@ const moveBall = (field) => {
     ball.x += xChanger;
     ball.y -= yChanger;
 
-    field[ball.y][ball.x] = BALL;
+    gameField[ball.y][ball.x] = BALL;
 
 };
 
 
-const putRacket = (field) => {
+const putRacket = (gameField) => {
 
     for (let i = racket.x; i < racket.x + racket.len; i++) {
 
-        field[racket.y][i] = RACKET;
+        gameField[racket.y][i] = RACKET;
     }
 };
 
@@ -118,7 +118,7 @@ const createField = (symbol, width, height) => {
 
 
 
-let gameField = createField(SPACE, WIDTH, HEIGHT);
+let fieldOfGame = createField(SPACE, WIDTH, HEIGHT);
 
 
 
@@ -142,10 +142,10 @@ const showField = (gamefield) => {
 const updateGame = () => {
 
     console.clear();
-    gameField = createField(SPACE, WIDTH, HEIGHT);
-    putRacket(gameField);
-    moveBall(gameField);
-    showField(gameField);
+    fieldOfGame = createField(SPACE, WIDTH, HEIGHT);
+    putRacket(fieldOfGame);
+    moveBall(fieldOfGame);
+    showField(fieldOfGame);
 
 
     if (ball.y === END_OF_FIELD) {
