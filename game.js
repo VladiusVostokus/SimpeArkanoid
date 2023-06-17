@@ -47,19 +47,19 @@ let yChanger = 1;
 
 const moveBall = (gameField) => {
 
-    const PREV_X = ball.x - 1;
-    const NEXT_X = ball.x + 1;
+    const prev_x = ball.x - 1;
+    const next_x = ball.x + 1;
 
-    const PREV_Y = ball.y - 1;
-    const NEXT_Y = ball.y + 1;
+    const prev_y = ball.y - 1;
+    const next_y = ball.y + 1;
 
-    if (gameField[ball.y][PREV_X] === WALL || gameField[ball.y][NEXT_X] === WALL)
+    if (gameField[ball.y][prev_x] === WALL || gameField[ball.y][next_x] === WALL)
         xChanger = -xChanger;
 
-    if (gameField[PREV_Y][ball.x] === WALL || gameField[NEXT_Y][ball.x] === WALL)
+    if (gameField[prev_y][ball.x] === WALL || gameField[next_y][ball.x] === WALL)
         yChanger = -yChanger;
 
-    if (gameField[NEXT_Y][ball.x] === RACKET) {
+    if (gameField[next_y][ball.x] === RACKET) {
 
         yourScore++;
         yChanger = -yChanger;
