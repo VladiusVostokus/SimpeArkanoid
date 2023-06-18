@@ -52,14 +52,18 @@ const moveBall = (gameField) => {
 
     const prev_y = ball.y - 1;
     const next_y = ball.y + 1;
+    
+    
 
-    if (gameField[ball.y][prev_x] === WALL || gameField[ball.y][next_x] === WALL)
+    if (gameField.getCell(ball.y,prev_x) === WALL || gameField.getCell(ball.y,next_x) === WALL)
         xChanger = -xChanger;
+    
+    gameField.getCell(next_y,ball.x)
 
-    if (gameField[prev_y][ball.x] === WALL || gameField[next_y][ball.x] === WALL)
+    if (gameField.getCell(prev_y,ball.x) === WALL || gameField.getCell(next_y,ball.x) === WALL)
         yChanger = -yChanger;
 
-    if (gameField[next_y][ball.x] === RACKET) {
+    if (gameField.getCell(next_y,ball.x) === RACKET) {
 
         yourScore++;
         yChanger = -yChanger;
@@ -69,7 +73,7 @@ const moveBall = (gameField) => {
     ball.x += xChanger;
     ball.y -= yChanger;
 
-    gameField[ball.y][ball.x] = BALL;
+    gameField.setCell(ball.y, ball.x, BALL);
 
 };
 
@@ -78,7 +82,8 @@ const putRacket = (gameField) => {
 
     for (let i = racket.x; i < racket.x + racket.len; i++) {
 
-        gameField[racket.y][i] = RACKET;
+        //gameField[racket.y][i] = RACKET;
+        gameField.setCell(racket.y, i, RACKET);
     }
 };
 
@@ -94,39 +99,54 @@ const moveRacket = (x) => {
 };
 
 
-const createField = (symbol, width, height) => {
 
-    const returnArray = [];
-    const workArray = new Array(width).fill(symbol);
-
-    for (let i = 0; i < height; i++) {
-
-        returnArray.push([...workArray]);
-        returnArray[i][LEFT_WALL] = WALL;
-        returnArray[i][RIGHT_WALL] = WALL;
-
+class FieldOfGame {   
+    constructor(symbol, widht, height) {
+        
+        this.symbol = symbol;
+        this.width = widht;
+        this.height = height;
+        this.field = new Array(this.width).fill(this.symbol);
+        this.returnField = [];
+        
+        
+        for (let i = 0; i < this.height; i++) {
+            
+            this.returnField.push([...this.field]);
+            this.returnField[i][LEFT_WALL] = WALL;
+            this.returnField[i][RIGHT_WALL] = WALL;
+            
+        }   
+        
+        for (let j = 0; j < this.width; j++)
+            this.returnField[CEILENG][j] = WALL;  
     }
+    
+    getCell(row, col) {
+        return this.returnField[row][col];   
+    } 
+    
+    
+    setCell(row, col, value) {
+        this.returnField[row][col] = value;
+    }
+    
+    getField() {
+        return this.returnField;
+    }
+    
+}
 
 
-    for (let i = 0; i < width; i++)
-        returnArray[CEILENG][i] = WALL;
-
-
-    return returnArray;
-
-};
-
-
-
-let fieldOfGame = createField(SPACE, WIDTH, HEIGHT);
-
+let fieldOfGame = new FieldOfGame(SPACE,WIDTH,HEIGHT);
 
 
 const showField = (gamefield) => {
 
+    let playField = gamefield.getField();
     let str = '';
 
-    for (const row of gamefield) {
+    for (const row of playField) {
 
         for (const col of row) {
 
@@ -142,7 +162,7 @@ const showField = (gamefield) => {
 const updateGame = () => {
 
     console.clear();
-    fieldOfGame = createField(SPACE, WIDTH, HEIGHT);
+    fieldOfGame = new FieldOfGame(SPACE, WIDTH, HEIGHT);
     putRacket(fieldOfGame);
     moveBall(fieldOfGame);
     showField(fieldOfGame);
