@@ -82,7 +82,6 @@ const putRacket = (gameField) => {
 
     for (let i = racket.x; i < racket.x + racket.len; i++) {
 
-        //gameField[racket.y][i] = RACKET;
         gameField.setCell(racket.y, i, RACKET);
     }
 };
@@ -107,8 +106,11 @@ class FieldOfGame {
         this.width = widht;
         this.height = height;
         this.field = new Array(this.width).fill(this.symbol);
-        this.returnField = [];
+    }
+    
+    updateGameField() {
         
+        this.returnField = [];
         
         for (let i = 0; i < this.height; i++) {
             
@@ -162,7 +164,7 @@ const showField = (gamefield) => {
 const updateGame = () => {
 
     console.clear();
-    fieldOfGame = new FieldOfGame(SPACE, WIDTH, HEIGHT);
+    fieldOfGame.updateGameField();
     putRacket(fieldOfGame);
     moveBall(fieldOfGame);
     showField(fieldOfGame);
