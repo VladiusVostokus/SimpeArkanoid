@@ -145,12 +145,7 @@ class FieldOfGame {
     
     setCell(row, col, value) {
         this.returnField[row][col] = value;
-    }
-    
-    getField() {
-        return this.returnField;
-    }
-    
+    }  
 }
 
 
