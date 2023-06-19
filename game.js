@@ -155,7 +155,7 @@ class FieldOfGame {
 }
 
 
-let fieldOfGame = new FieldOfGame(SPACE,WIDTH,HEIGHT);
+const fieldOfGame = new FieldOfGame(SPACE,WIDTH,HEIGHT);
 
 
 const updateGame = () => {
