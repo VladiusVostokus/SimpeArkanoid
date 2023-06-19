@@ -124,6 +124,21 @@ class FieldOfGame {
             this.returnField[CEILENG][j] = WALL;  
     }
     
+    showGameField() {
+        
+        let str = '';
+        
+        for (const row of this.returnField) {
+
+            for (const col of row) {
+
+                str += col;
+            }   
+            console.log(str);
+            str = '';
+        }
+    }
+    
     getCell(row, col) {
         return this.returnField[row][col];   
     } 
@@ -143,31 +158,13 @@ class FieldOfGame {
 let fieldOfGame = new FieldOfGame(SPACE,WIDTH,HEIGHT);
 
 
-const showField = (gamefield) => {
-
-    let playField = gamefield.getField();
-    let str = '';
-
-    for (const row of playField) {
-
-        for (const col of row) {
-
-            str += col;
-        }
-        console.log(str);
-        str = '';
-    }
-};
-
-
-
 const updateGame = () => {
 
     console.clear();
     fieldOfGame.updateGameField();
     putRacket(fieldOfGame);
     moveBall(fieldOfGame);
-    showField(fieldOfGame);
+    fieldOfGame.showGameField();
 
 
     if (ball.y === END_OF_FIELD) {
