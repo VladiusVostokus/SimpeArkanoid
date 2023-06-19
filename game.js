@@ -49,20 +49,24 @@ const moveBall = (gameField) => {
 
     const prev_x = ball.x - 1;
     const next_x = ball.x + 1;
-
+    
     const prev_y = ball.y - 1;
     const next_y = ball.y + 1;
     
+    const leftX = gameField.getCell(ball.y,prev_x);
+    const rightX = gameField.getCell(ball.y,next_x);
+    
+    const aboveY = gameField.getCell(prev_y,ball.x);
+    const belowY = gameField.getCell(next_y,ball.x);
     
 
-    if (gameField.getCell(ball.y,prev_x) === WALL || gameField.getCell(ball.y,next_x) === WALL)
+    if (leftX === WALL || rightX === WALL)
         xChanger = -xChanger;
     
-
-    if (gameField.getCell(prev_y,ball.x) === WALL || gameField.getCell(next_y,ball.x) === WALL)
+    if (aboveY === WALL || belowY === WALL)
         yChanger = -yChanger;
 
-    if (gameField.getCell(next_y,ball.x) === RACKET) {
+    if (belowY === RACKET) {
 
         yourScore++;
         yChanger = -yChanger;
