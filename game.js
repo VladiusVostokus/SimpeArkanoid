@@ -58,7 +58,6 @@ const moveBall = (gameField) => {
     if (gameField.getCell(ball.y,prev_x) === WALL || gameField.getCell(ball.y,next_x) === WALL)
         xChanger = -xChanger;
     
-    gameField.getCell(next_y,ball.x)
 
     if (gameField.getCell(prev_y,ball.x) === WALL || gameField.getCell(next_y,ball.x) === WALL)
         yChanger = -yChanger;
