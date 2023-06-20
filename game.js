@@ -104,11 +104,11 @@ class Ball {
 const ball = new Ball(BALL, 10, 30);
 
 
-const putRacket = (gameField) => {
+const putRacket = (gamefield) => {
 
     for (let i = racket.x; i < racket.x + racket.len; i++) {
 
-        gameField.setCell(racket.y, i, RACKET);
+        gamefield.setCell(racket.y, i, RACKET);
     }
 };
 
@@ -131,30 +131,30 @@ class FieldOfGame {
         this.symbol = symbol;
         this.width = widht;
         this.height = height;
-        this.field = new Array(this.width).fill(this.symbol);
+        this.row = new Array(this.width).fill(this.symbol);
     }
     
     updateGameField() {
         
-        this.returnField = [];
+        this.gameField = [];
         
         for (let i = 0; i < this.height; i++) {
             
-            this.returnField.push([...this.field]);
-            this.returnField[i][LEFT_WALL] = WALL;
-            this.returnField[i][RIGHT_WALL] = WALL;
+            this.gameField.push([...this.row]);
+            this.gameField[i][LEFT_WALL] = WALL;
+            this.gameField[i][RIGHT_WALL] = WALL;
             
         }   
         
         for (let j = 0; j < this.width; j++)
-            this.returnField[CEILENG][j] = WALL;  
+            this.gameField[CEILENG][j] = WALL;  
     }
     
     showGameField() {
         
         let str = '';
         
-        for (const row of this.returnField) {
+        for (const row of this.gameField) {
 
             for (const col of row) {
 
@@ -166,12 +166,12 @@ class FieldOfGame {
     }
     
     getCell(row, col) {
-        return this.returnField[row][col];   
+        return this.gameField[row][col];   
     } 
     
     
     setCell(row, col, value) {
-        this.returnField[row][col] = value;
+        this.gameField[row][col] = value;
     }  
 }
 
