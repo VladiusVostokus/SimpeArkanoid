@@ -20,6 +20,7 @@ const stdin = process.stdin;
 stdin.setRawMode(true);
 stdin.setEncoding("utf8");
 
+
 const RACKET_LEN = 6;
 const RACKET_X = Math.round((WIDTH - RACKET_LEN) / 2);
 const RACKET_Y = HEIGHT - 2;
@@ -49,10 +50,10 @@ class Racket {
   }
 }
 
-const racket = new Racket(RACKET, RACKET_Y, RACKET_X, RACKET_LEN);
+const racket = new Racket(RACKET, RACKET_Y, RACKET_X);
 
 class Ball {
-  constructor(symbol, y, x, len) {
+  constructor(symbol, y, x) {
     this.symbol = symbol;
     this.y = y;
     this.x = x;
@@ -179,6 +180,8 @@ const action = (button) => controls[button] || (() => {});
 stdin.on("data", (button) => {
   action(button);
 });
+
+
 
 setInterval(updateGame, TIMEOUT);
 
