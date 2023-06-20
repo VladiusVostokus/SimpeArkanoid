@@ -23,16 +23,16 @@ stdin.setRawMode(true);
 stdin.setEncoding('utf8');
 
 
-const RACKET_LEN = 6;
 const RACKET_X = Math.round((WIDTH - RACKET_LEN) / 2);
+const RACKET_Y = HEIGHT - 2;
 
 
 class Racket {
     
-    constructor(symbol,y, x, len) {
+    constructor(symbol,y, x) {
         this.y = y;
         this.x = x;
-        this.len = len;
+        this.len = 6;
         this.symbol = symbol;
     }
     
@@ -55,7 +55,7 @@ class Racket {
     }
 }
 
-const racket = new Racket(RACKET,HEIGHT - 2,RACKET_X,RACKET_LEN);
+const racket = new Racket(RACKET,RACKET_Y,RACKET_X);
 
 
 class Ball {
