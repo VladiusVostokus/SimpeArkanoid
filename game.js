@@ -181,7 +181,4 @@ stdin.on("data", (button) => {
   action(button);
 });
 
-
-
 setInterval(updateGame, TIMEOUT);
-
