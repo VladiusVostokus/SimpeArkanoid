@@ -29,7 +29,7 @@ class Racket {
   constructor(symbol, y, x) {
     this.y = y;
     this.x = x;
-    this.len = 6;
+    this.len = RACKET_LEN;
     this.symbol = symbol;
   }
 
@@ -120,23 +120,18 @@ class FieldOfGame {
 
     for (let i = 0; i < this.height; i++) {
       this.gameField.push([...this.row]);
-      this.gameField[i][LEFT_WALL] = WALL;
-      this.gameField[i][RIGHT_WALL] = WALL;
+      const row = this.gameField[i];
+      row[LEFT_WALL] = WALL;
+      row[RIGHT_WALL] = WALL;
     }
 
     for (let j = 0; j < this.width; j++) this.gameField[CEILENG][j] = WALL;
   }
 
   showGameField() {
-    let str = "";
-
-    for (const row of this.gameField) {
-      for (const col of row) {
-        str += col;
-      }
-      console.log(str);
-      str = "";
-    }
+    const rows = this.gameField.map(row => row.join(''));
+    const field = rows.join('\n');
+    console.log(field); 
   }
 
   getCell(row, col) {
