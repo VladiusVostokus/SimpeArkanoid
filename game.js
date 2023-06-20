@@ -34,51 +34,74 @@ const racket = {
 };
 
 
-const ball = {
-    x: 30,
-    y: 10,
-};
-
-
-
-let xChanger = 1;
-let yChanger = 1;
-
-
-const moveBall = (gameField) => {
-
-    const prev_x = ball.x - 1;
-    const next_x = ball.x + 1;
+class Ball {
     
-    const prev_y = ball.y - 1;
-    const next_y = ball.y + 1;
-    
-    const leftX = gameField.getCell(ball.y,prev_x);
-    const rightX = gameField.getCell(ball.y,next_x);
-    
-    const aboveY = gameField.getCell(prev_y,ball.x);
-    const belowY = gameField.getCell(next_y,ball.x);
-    
-
-    if (leftX === WALL || rightX === WALL)
-        xChanger = -xChanger;
-    
-    if (aboveY === WALL || belowY === WALL)
-        yChanger = -yChanger;
-
-    if (belowY === RACKET) {
-
-        yourScore++;
-        yChanger = -yChanger;
-
+    constructor(symbol, y, x) {
+        
+        this.symbol = symbol;
+        this.y = y;
+        this.x = x;
+        
+        this.xChanger = 1;
+        this.yChanger = 1;
+        this.score = 0;
+        
     }
+    
+    moveBall(gamefield) {
+        
+        const prevX = this.x - 1;
+        const nextX = this.x + 1;
+        const prevY = this.y - 1;
+        const nextY = this.y + 1;
+        
+        const leftX = gamefield.getCell(this.y,prevX);
+        const rightX = gamefield.getCell(this.y,nextX);
+    
+        const aboveY = gamefield.getCell(prevY,this.x);
+        const belowY = gamefield.getCell(nextY,this.x);
+        
+        if (leftX === WALL || rightX === WALL)
+            this.xChanger = -this.xChanger;
+    
+        if (aboveY === WALL || belowY === WALL)
+            this.yChanger = -this.yChanger;
+        
+        if (belowY === RACKET) {
+            this.score++;
+            this.yChanger = -this.yChanger;
+        }
+        
+        this.x += this.xChanger;
+        this.y -= this.yChanger
+        
+        gamefield.setCell(this.y, this.x, this.symbol);
+    }
+    
+    checkEnd() {
+        
+        if (this.y === END_OF_FIELD) {
 
-    ball.x += xChanger;
-    ball.y -= yChanger;
+        console.log("Game over, your score =", yourScore);
+        process.exit(0);
 
-    gameField.setCell(ball.y, ball.x, BALL);
+        }
+    }
+    
+    checkScore() {
+        
+        if(this.score === WIN_SCORE){
+            
+            console.log("Congratulation!!!");
+            process.exit(0);
+            
+        }      
+    }
+   
+}
 
-};
+
+const ball = new Ball(BALL, 10, 30);
 
 
 const putRacket = (gameField) => {
@@ -161,23 +184,10 @@ const updateGame = () => {
     console.clear();
     fieldOfGame.updateGameField();
     putRacket(fieldOfGame);
-    moveBall(fieldOfGame);
+    ball.moveBall(fieldOfGame);
     fieldOfGame.showGameField();
-
-
-    if (ball.y === END_OF_FIELD) {
-
-        console.log("Game over, your score =", yourScore);
-        process.exit(0);
-
-    }
-
-
-    if (yourScore === WIN_SCORE) {
-
-        console.log("Congratulation!!!");
-        process.exit(0);
-    }
+    ball.checkEnd();
+    ball.checkScore();
 
 };
 
