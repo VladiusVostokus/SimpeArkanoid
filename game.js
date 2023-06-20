@@ -26,11 +26,36 @@ stdin.setEncoding('utf8');
 const RACKET_LEN = 6;
 const RACKET_X = Math.round((WIDTH - RACKET_LEN) / 2);
 
-const racket = {
-    x: RACKET_X,
-    y: HEIGHT - 2,
-    len: RACKET_LEN,
-};
+
+class Racket {
+    
+    constructor(symbol,y, x, len) {
+        this.y = y;
+        this.x = x;
+        this.len = len;
+        this.symbol = symbol;
+    }
+    
+    putRacket(gamefield) {
+        
+        for (let i = this.x; i < this.x + this.len; i++) {
+
+            gamefield.setCell(this.y, i, RACKET);
+        }
+    }
+    
+    moveLeft() {
+        --this.x;
+        if (this.x < LEFT_WALL + 1) this.x = 1;
+    }
+    
+    moveRight() {
+        ++this.x;
+        if (this.x + this.len >= WIDTH) this.x = RIGHT_WALL - this.len;
+    }
+}
+
+const racket = new Racket(RACKET,HEIGHT - 2,RACKET_X,RACKET_LEN);
 
 
 class Ball {
@@ -103,27 +128,6 @@ class Ball {
 const ball = new Ball(BALL, 10, 30);
 
 
-const putRacket = (gamefield) => {
-
-    for (let i = racket.x; i < racket.x + racket.len; i++) {
-
-        gamefield.setCell(racket.y, i, RACKET);
-    }
-};
-
-
-const moveRacket = (x) => {
-
-    racket.x = x;
-
-    if (racket.x < LEFT_WALL + 1) racket.x = 1;
-
-    if (racket.x + racket.len >= WIDTH) racket.x = RIGHT_WALL - racket.len;
-
-};
-
-
-
 class FieldOfGame {   
     constructor(symbol, widht, height) {
         
@@ -182,7 +186,7 @@ const updateGame = () => {
 
     console.clear();
     fieldOfGame.updateGameField();
-    putRacket(fieldOfGame);
+    racket.putRacket(fieldOfGame);
     ball.moveBall(fieldOfGame);
     fieldOfGame.showGameField();
     ball.checkEnd();
@@ -194,11 +198,11 @@ const updateGame = () => {
 const controls = {
     
     get 'a'() {
-        moveRacket(racket.x - 1);
+        racket.moveLeft();
     },
       
     get 'd'() {
-        moveRacket(racket.x + 1);
+        racket.moveRight();
     },
     
     get 'q'() {
