@@ -9,7 +9,6 @@ const RIGHT_WALL = WIDTH - 1;
 const CEILENG = 0;
 
 const WIN_SCORE = 10;
-let yourScore = 0;
 
 const TIMEOUT = 60;
 
@@ -82,7 +81,7 @@ class Ball {
         
         if (this.y === END_OF_FIELD) {
 
-        console.log("Game over, your score =", yourScore);
+        console.log("Game over, your score =", this.score);
         process.exit(0);
 
         }
